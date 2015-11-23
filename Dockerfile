@@ -1,11 +1,16 @@
 FROM gliderlabs/alpine:latest
 
+# Enviroment variables you can override
+ENV HTTPD_SERVER_ADMIN you@example.com
+ENV HTTPD_LOG_LEVEL warn
+
 ENV HTTPD_VERSION 2.4.17
 ENV HTTPD_HASH cf4dfee11132cde836022f196611a8b7 *httpd-2.4.17.tar.bz2
 ENV APR_VERSION 1.5.2
 ENV APR_HASH 4e9769f3349fe11fc0a5e1b224c236aa *apr-1.5.2.tar.bz2
 ENV APRUTIL_VERSION 1.5.4
 ENV APRUTIL_HASH 2202b18f269ad606d70e1864857ed93c *apr-util-1.5.4.tar.bz2
+
 
 ENV DEV_PACKAGES clang make wget build-base file musl-dev openssl-dev pcre-dev curl-dev jansson-dev sqlite-dev luajit-dev
 ENV RUNTIME_PACKAGES pcre openssl curl jansson sqlite luajit
@@ -56,10 +61,13 @@ RUN make -j 2
 RUN make install
 
 WORKDIR /
+RUN mkdir -p /logs /conf
 RUN rm -rf /build
 RUN apk del ${DEV_PACKAGES}
 
+VOLUME /logs
+VOLUME /conf
+
+COPY httpd.conf /opt/conf/httpd.conf
+
 ENTRYPOINT ["/opt/bin/httpd", "-DFOREGROUND"]
-
-
-
