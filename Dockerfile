@@ -12,14 +12,16 @@ ENV APRUTIL_VERSION 1.5.4
 ENV APRUTIL_HASH 2202b18f269ad606d70e1864857ed93c *apr-util-1.5.4.tar.bz2
 
 
-ENV DEV_PACKAGES autoconf clang make wget build-base file musl-dev openssl-dev pcre-dev curl-dev jansson-dev sqlite-dev luajit-dev
-ENV RUNTIME_PACKAGES pcre openssl curl jansson sqlite luajit
+ENV DEV_PACKAGES autoconf clang make wget build-base file musl-dev openssl-dev pcre-dev curl-dev sqlite-dev luajit-dev perl
+ENV RUNTIME_PACKAGES pcre openssl curl sqlite luajit
 
 RUN mkdir /build
 RUN apk --update add ${DEV_PACKAGES} ${RUNTIME_PACKAGES}
 
 ENV CC /usr/bin/clang
 ENV CXX /usr/bin/clang++
+
+ENV PKG_CONFIG_PATH /opt/lib/pkgconfig:/usr/lib/pkgconfig
 
 WORKDIR /build
 RUN wget http://www.apache.org/dist/httpd/httpd-${HTTPD_VERSION}.tar.bz2
