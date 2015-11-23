@@ -12,7 +12,7 @@ ENV APRUTIL_VERSION 1.5.4
 ENV APRUTIL_HASH 2202b18f269ad606d70e1864857ed93c *apr-util-1.5.4.tar.bz2
 
 
-ENV DEV_PACKAGES clang make wget build-base file musl-dev openssl-dev pcre-dev curl-dev jansson-dev sqlite-dev luajit-dev
+ENV DEV_PACKAGES autoconf clang make wget build-base file musl-dev openssl-dev pcre-dev curl-dev jansson-dev sqlite-dev luajit-dev
 ENV RUNTIME_PACKAGES pcre openssl curl jansson sqlite luajit
 
 RUN mkdir /build
@@ -61,7 +61,7 @@ RUN make -j 2
 RUN make install
 
 WORKDIR /
-RUN mkdir -p /logs /conf
+RUN mkdir -p /logs /conf /modules.conf.d
 RUN rm -rf /build
 RUN apk del ${DEV_PACKAGES}
 
