@@ -71,5 +71,6 @@ VOLUME /logs
 VOLUME /conf
 
 COPY httpd.conf /opt/conf/httpd.conf
+COPY ssl-vhost.conf /opt/conf/ssl-vhost.conf
 
 ENTRYPOINT ["/opt/bin/httpd", "-DFOREGROUND"]
